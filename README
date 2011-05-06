@@ -2,6 +2,14 @@
 
 Kate-Get takes a space separated list of file paths and checks each one against a list of sources. If a match is found, the file is copied via rsync to a local directory. Options for each source are controlled by a config file. Subdirectories are handled automatically based on how local and remote root paths are set.
 
+== Usage
+
+First, make a config file for kate-get (see the next section) and then call it with
+
+  kate-get "file_1 file_2 file_3"
+
+The quoted argument is a space separated string of full file paths. Each file will be checked against the list of sources until it matches one, then the file will be copied into the corresponding subdirectory of the root directory for that source.
+
 == Making a config file
 
 By default, Kate-Get looks for the YAML file
@@ -42,16 +50,17 @@ There are two sections
 
 Note that the string ##source_name## will be automatically replaced by the source name.
 
-== Limitations
-
-* Currently, only rsync over ssh is supported.
-* An input file path matches a source if the input file path contains the source name.
-  * This can cause unexpected behavior if the input file name includes two strings which match two different source names.
+In this example config, there are two sources named foo.com and bar.com. Here, bar.com has been configured to use different connection info. If a file path starts with the base of one of these sources, it will be copied to the corresponding subdirectory of the root directory for that source. For example, if file_1 was
+  sftp://user@foo.com:22/var/www/vhosts/foo.com/htdocs/css/style.css
+rsync would copy the remote file from example.com
+  /var/www/vhosts/foo.com/htdocs/css/style.css
+to the local file
+  ~/Development/foo/css/style.css
+This configuration uses a base which is the form Kate uses when accessing a file over sftp.
 
 == Setting up Kate to use Kate-Get
 
-Kate-Get is meant to be used with Kate (http://kate-editor.org/) as an external tool. For information on adding external tools to Kate see http://docs.kde.org/stable/en/kdesdk/kate/config-dialog.html.
-
+Kate-Get is meant to be used with Kate (http://kate-editor.org) as an external tool. For information on adding external tools to Kate see http://docs.kde.org/stable/en/kdesdk/kate/config-dialog.html.
 
 If you want a tool that only copies the currently open file use
 
@@ -64,6 +73,8 @@ If you want to loop through all open files use
 Note that you may need to use the full path to the kate-get binary, usually
 
   /var/lib/gems/1.9.1/bin/kate-get
+
+The example confiuration given above
 
 == Installation
 

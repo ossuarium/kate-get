@@ -1,6 +1,6 @@
 Gem::Specification.new do |spec|
 	spec.name = 'kate-get'
-	spec.version = '0.1.0'
+	spec.version = '0.1.1'
 
 	spec.author = 'Evan Boyd Sosenko'
 	spec.summary = 'Kate external tool to intelligently copy open remote files to local directories.'

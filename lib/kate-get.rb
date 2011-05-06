@@ -15,10 +15,12 @@ class KateGet
 
 		fail "Failed to load config." unless @config.is_a? Hash
 
+		#update
+
 	end
 
-	# Files to get
-	# @param [String] files space seperated list of file paths
+	# Addes a file to the array of files to be copied.
+	# @param [String] file path to file
 	def add_file file
 		@files = [] unless @files
 		@files << file
@@ -32,7 +34,7 @@ class KateGet
 			# Look for the first source that matches the file.
 			site, name = nil
 			@config[:sources].each do |n, s|
-				name, site = [n, s] if f[n]
+				name, site = [n, s] if f[/^#{s[:base].sub "##source_name##", n}/ ]
 				break if site
 			end
 
