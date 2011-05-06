@@ -1,0 +1,94 @@
+= Kate-Get
+
+Kate-Get takes a space separated list of file paths and checks each one against a list of sources. If a match is found, the file is copied via rsync to a local directory. Options for each source are controlled by a config file. Subdirectories are handled automatically based on how local and remote root paths are set.
+
+== Making a config file
+
+By default, Kate-Get looks for the YAML file
+
+  ~/.kate-get.yml
+
+An example of a config file
+
+  :global:
+    :host: "example.com"
+    :port: 22
+    :user: "user-name"
+
+  :sources:
+    "foo.com":
+      :local: "~/Development/foo"
+      :root: "/var/www/vhosts/##source_name##/htdocs"
+      :base: "sftp://user@foo.com:22/var/www/vhosts/##source_name##/htdocs/"
+    "bar.com":
+      :local: "~/Development/bar"
+      :root: "/var/www/vhosts/##source_name##/htdocs"
+      :base: "sftp://user@bar.com:22/var/www/vhosts/##source_name##/htdocs/"
+      :host: "bar.com"
+      :port: 42
+      :user: "bar-user-name"
+
+There are two sections
+* *global* - rsync connection information
+  * *host* - hostname or IP
+  * *port* - port to connect on
+  * *user* - username to connect with
+  * These options may be overridden on a per-source basis by specifying them there.
+
+* *sources* - each entry is a source name (string) with the following options
+  * *local* - path to local folder where files should be copied too (no leading slash)
+  * *root* - path to remote folder (input file must exist in some subdirectory of this to be copied)
+  * *base* - prefix string that will be stripped from the file name
+
+Note that the string ##source_name## will be automatically replaced by the source name.
+
+== Limitations
+
+* Currently, only rsync over ssh is supported.
+* An input file path matches a source if the input file path contains the source name.
+  * This can cause unexpected behavior if the input file name includes two strings which match two different source names.
+
+== Setting up Kate to use Kate-Get
+
+Kate-Get is meant to be used with Kate (http://kate-editor.org/) as an external tool. For information on adding external tools to Kate see http://docs.kde.org/stable/en/kdesdk/kate/config-dialog.html.
+
+
+If you want a tool that only copies the currently open file use
+
+  kate-get "%URL"
+
+If you want to loop through all open files use
+
+  kate-get "%URLs"
+
+Note that you may need to use the full path to the kate-get binary, usually
+
+  /var/lib/gems/1.9.1/bin/kate-get
+
+== Installation
+
+=== Gem Installation
+
+Download and install Kate-Get with
+
+ gem install kate-get
+
+== Development
+
+=== Source Repository
+
+Kate-Get is currently hosted at github. The github web page is
+https://github.com/razor-x/kate-get. To clone the project run
+
+  git clone git://github.com/razor-x/kate-get.git
+
+== License
+
+Kate-Get is licensed under the MIT license.
+
+== Warranty
+
+This software is provided "as is" and without any express or
+implied warranties, including, without limitation, the implied
+warranties of merchantibility and fitness for a particular
+purpose.

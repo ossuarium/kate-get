@@ -1,0 +1,13 @@
+#!/usr/bin/env ruby1.9.1
+
+require 'kate-get'
+
+fail "No file given." if ARGV.first.nil?
+
+files = ARGV.first.split " "
+
+rs = KateGet.new "~/.kate-get.yml"
+files.each do |f|
+	rs.add_file f
+end
+rs.get
