@@ -1,3 +1,5 @@
+require 'fileutils'
+
 # Main class for Kate-Get.
 class KateGet
 
@@ -47,13 +49,15 @@ class KateGet
 
 			# Prepare the elements for the rsync command.
 			root_dir = site[:root].sub "##source_name##", name
-			base_url = site[:base].sub "##source_name##", name
+			base = site[:base].sub "##source_name##", name
 
 			# Skip the file if it is not in the root directory of the source.
 			next unless f[root_dir]
 
-			f.sub! base_url, ""
-			base = File.basename f
+			f.sub! base, ""
+
+			dir = "#{File.expand_path site[:local]}#{File.dirname f}"
+			FileUtils.mkdir_p dir unless File.directory? dir
 
 			rsync = "rsync -a -e 'ssh -p #{remote[:port]}' #{remote[:user]}@#{remote[:host]}:#{root_dir}/#{f} #{site[:local]}/#{f}"
 
