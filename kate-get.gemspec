@@ -1,6 +1,6 @@
 Gem::Specification.new do |spec|
 	spec.name = 'kate-get'
-	spec.version = '0.1.2'
+	spec.version = '0.1.4'
 
 	spec.author = 'Evan Boyd Sosenko'
 	spec.summary = 'Kate external tool to intelligently copy open remote files to local directories.'
@@ -8,6 +8,8 @@ Gem::Specification.new do |spec|
 	spec.description = <<-EOF
 		Kate-Get takes a space separated list of file paths and checks each one against a list of sources. If a match is found, the file is copied via rsync to a local directory. Options for each source are controlled by a config file.
 	EOF
+
+	spec.homepage = 'http://evansosenko.com/development/kate-get'
 
 	spec.required_ruby_version = '>= 1.9.2'
 
