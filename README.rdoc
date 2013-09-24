@@ -1,5 +1,7 @@
 = Kate-Get
 
+<b>Kate-Get is no longer supported or maintained since {the External Tools Plugin was removed}[http://kate-editor.org/2011/08/09/maintainer-needed-kate-external-tools-plugin/].</b>
+
 Kate-Get takes a space separated list of file paths and checks each one against a list of sources. If a match is found, the file is copied via rsync to a local directory. Options for each source are controlled by a config file. Subdirectories are handled automatically based on how local and remote root paths are set.
 
 == Usage
